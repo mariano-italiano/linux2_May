@@ -1,1 +1,1 @@
-# linux2_May
+# Administracja Linux 2
