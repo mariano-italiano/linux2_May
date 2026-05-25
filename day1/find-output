@@ -1,0 +1,2 @@
+/boot/grub2/grub.cfg
+find: ‘/run/user/42/doc’: Permission denied

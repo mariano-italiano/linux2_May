@@ -1,0 +1,14 @@
+#!/usr/bin/python3
+#
+# SPDX-License-Identifier: LGPL-2.1-or-later
+#
+# Copyright (C) 2012-2023 Red Hat, Inc.
+#
+# Author: Tony Asleson <tasleson@redhat.com>
+from lsm.lsmcli import cmd_line_wrapper
+
+# Command line interface for libStorageMgmt.
+# This is contained in a separate class which can be shared across all the py
+# plug-ins.
+if __name__ == '__main__':
+    cmd_line_wrapper()

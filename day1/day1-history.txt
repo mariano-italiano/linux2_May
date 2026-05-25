@@ -1,0 +1,246 @@
+reboot
+systemd-analyze 
+systemd-analyze blame 
+systemd-analyze critical-chain 
+systemd-analyze plot
+[ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
+vi /etc/default/grub 
+vi /etc/grub.d/
+vi /etc/grub2.cfg  
+git clone https://github.com/mariano-italiano/linux2_May.git
+ls -la 
+rm -rf linux2_May/
+git clone https://github.com/mariano-italiano/linux2_May.git
+cd linux2_May/
+mkdir day1
+cd day1
+history 
+history > day1-history.txt 
+reboot
+vi /etc/default/grub 
+find / -name grub2.cfg 
+find / -name grub.cfg 
+vi /boot/grub2/grub.cfg 
+grub2-mkconfig -o /boot/grub2/grub.cfg 
+history 
+reboot
+vi /boot/grub2/grub.cfg 
+vi /etc/default/grub 
+vi /boot/grub2/grub.cfg
+ls -la 
+ls -la /boot/grub2/grub.cfg
+reboot 
+vi /etc/default/grub 
+find / -name grub.cfg 
+vi /boot/grub2/grub.cfg 
+vi /boot/grub2/grubenv 
+vi /etc/grub2.cfg 
+ls -la /etc/grub2.cfg
+vi /etc/default/grub 
+cd /boot/
+ls -la 
+cd grub2
+ls -la 
+cd ..
+ls -lah
+df -h
+cd
+cd linux2_May/day1/
+df -hT > df-usage
+df -hT 1> df-usage
+vi df-usage 
+find / -name grub.cfg 
+find / -name grub.cfg > find-output 2> find-error 
+ls -la 
+cat find-*
+cat find-output 
+cat find-error 
+find / -name grub.cfg > find-output 2>&1 
+cat find-output
+find / -name grub.cfg 2>&1 > find-output 
+cat find-output
+find / -name grub.cfg > find-output 2>&1 
+cat find-output 
+sort < find-output 
+vi my-notes
+cat my-notes
+awk '/.sh/{print $0}' my-notes 
+awk '/file/{print $0}' my-notes 
+sed -n '/file/p' my-notes 
+sed -n '/.sh/p' my-notes 
+sed '/.sh/p' my-notes 
+sed -n '/.sh/p' my-notes 
+awk '/[mdbc]ash/{print $0}' my-notes 
+vi my-notes 
+awk '/[mdbc]ash/{print $0}' my-notes 
+sed -n '/[d-hm-z]cash/p' my-notes 
+sed -n '/[d-hm-z]ash/p' my-notes 
+sed -n '/[mdbc]ash/p' my-notes 
+sed -n '/[a-zA-Z/p' my-notes 
+sed -n '/[a-zA-Z]/p' my-notes 
+sed -n '/[0-9]/p' my-notes 
+cp -rp my-notes my-notes.bak
+sed 's/foo/linux/g' my-notes
+sed 's/foo/linux/gI' my-notes
+sed 's//bin/bash//bin/sh/gI' my-notes
+sed 's$/bin/bash$/bin/sh$gI' my-notes
+sed 's3/bin/bash3/bin/sh3gI' my-notes
+sed 's/\b[0-9]\{3\}\b/3-digit number/g' my-notes
+sed 's/\b[0-9]\b/some number/g' my-notes
+sed 's/\b[0-9]\{3\}\b/3-digit number/g' my-notes
+sed 's/\b[0-9]\{3\}\b/& zł/g' my-notes
+cat my-notes
+cat my-notes | grep -i foo
+alias
+cat my-notes | grep -i foo
+grep -i foo my-notes
+grep -v "#" /etc/ssh/sshd_config
+grep -v "#" /etc/ssh/sshd_config | tr -d '\n'
+grep -v "#" /etc/ssh/sshd_config | tr -d ' '
+less /var/log/messages 
+grep 'POST / HTTP/1.1' -B 5 -A 2 /var/log/messages
+grep ^root /etc/passwd
+grep bash$ /etc/passwd
+grep :/home/.*: /etc/passwd
+grep -e student -e root /etc/passwd
+grep -E 'error|warning' /var/log/messages 
+grep -e warning -e error /var/log/messages
+vi /etc/default/grub 
+ls -la /boot/loader/entries/235d49520ed345a5a71373200b9c6049-*
+vi /boot/loader/entries/235d49520ed345a5a71373200b9c6049-*
+tar zcvf archiwum.tar.gz /usr/bin/ 
+ls -lah
+tar jcvf archiwum.tar.bz2 /usr/bin/ 
+tar Jcvf archiwum.tar.xz /usr/bin/ 
+ls -lah
+tar --zstd cf archiwum.tar.xz /usr/bin/ 
+tar --zstd -cf archiwum.tar.xz /usr/bin/ 
+tar xf archiwum.tar.gz 
+ls -la 
+ls -la usr/bin/
+ls -la 
+tar --zstd cf archiwum.tar.zst /usr/bin/ 
+tar --zstd -cf archiwum.tar.zst /usr/bin/ 
+tar --help 
+uname -r
+uptime
+cat /proc/cpuinfo 
+cat /proc/cpuinfo | grep processor 
+uptime
+top
+ps -ef
+free -m
+top 
+htop
+dnf install htop
+dnf install epel
+dnf repolist
+dnf install epel-release
+dnf install htop
+htop
+dnf install sysstat
+sar -A
+systemctl status sysstat
+systemctl enable --now sysstat
+sar -A
+sar -b 3 3
+sar -b 5 3
+sar -r
+sar -r 3 3
+sar -u 3 3
+sar -W 3 3
+sar -q 3 3
+ethtool -S ens18 
+ip -s link
+netstat -vatnulp 
+netstat -h
+netstat -vatnulp 
+ss -ltuna
+tcpdump --help
+tcpdump -i ens18 
+tcpdump -i ens18 tcp port 22 
+tcpdump -i ens18 src 192.168.1.125
+tcpdump -i ens18 src 192.168.1.1
+tcpdump -i ens18 src 192.168.1.1 -w test-traffic.pcap
+dns install wireshark -y
+dnf install wireshark -y
+cp -rp test-traffic.pcap /tmp
+chmod 777 /tmp/test-traffic.pcap 
+cat /proc/meminfo 
+cat /proc/cpuinfo 
+systemctl status tuned
+dnf install tuned
+tuned-adm active
+tuned-adm list 
+sysctl -a > balanced.txt 
+tuned-adm profile network-throughput 
+tuned-adm active
+sysctl -a > network-throughput.txt 
+diff network-throughput.txt balanced.txt 
+tuned-adm recommend 
+tuned-adm profile virtual-guest 
+dnf install -y --downloadonly chrony
+echo test
+T1=$(echo test)
+echo $TERM 
+echo $T1
+find /var/cache/dnf -name 'chrony*.rpm' 2>/dev/null | head -1
+find /var/cache/dnf -name '*.rpm'
+cd /var/cache/dnf/
+ls -la 
+cat last_makecache 
+dnf download chrony 2>/dev/null | tail -3
+RPMFILE=chrony-4.6.1-2.el10.x86_64.rpm
+rpm -qlp "$RPMFILE" | head -10
+mkdir rpm-extract && cd rpm-extract
+sudo rpm2cpio "$RPMFILE" | cpio -idmv 2>&1 | head -10
+rpm2cpio "$RPMFILE" | cpio -idmv 2>&1 | head -10
+ls -la 
+cd ..
+ls -la 
+cd rpm-extract/
+ls -la
+rpm -qlp "$RPMFILE" | head -10
+cd ..
+rpm -qlp "$RPMFILE" | head -10
+ls -la 
+rpm2cpio "$RPMFILE" | cpio -idmv
+ls -la 
+cd rpm-extract/
+ls -la 
+rpm2cpio "../$RPMFILE" | cpio -idmv 2>&1 | head -10
+ls -la 
+cd
+cd linux2_May/day1/
+vi health-check.sh
+chmod +x health-check.sh 
+./health-check.sh 
+ls -la /usr/lib/systemd/system
+ls -la /usr/lib/systemd/system/runlevel*
+systemctl get-default 
+systemctl set-default multi-user.target 
+systemctl set-default graphical.target 
+systemctl set-default multi-user.target 
+systemctl isolate multi-user.target 
+systemctl isolate graphical.target 
+systemctl cat sshd.service 
+systemctl status chronyd
+systemctl stop chronyd.service 
+/usr/sbin/chronyd -F 2 
+systemctl stop chronyd.service 
+/usr/sbin/chronyd -F 2 
+systemctl status chronyd
+/usr/sbin/chronyd -F 2 
+systemctl daemon-reload 
+systemctl status chronyd
+systemctl stop chronyd
+systemctl status chronyd
+systemctl start chronyd
+systemctl status chronyd
+systemctl list-units --type=service
+systemctl list-units --type=service --state=running
+systemctl list-units --type=timer
+systemctl list-units --type=target
+history 
+history | awk '$1 > 1' | cut -c 8- 
+history | awk '$1 > 1' | cut -c 8- > day1-history.txt 

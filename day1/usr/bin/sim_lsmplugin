@@ -1,0 +1,26 @@
+#!/usr/bin/python3
+#
+# SPDX-License-Identifier: LGPL-2.1-or-later
+#
+# Copyright (C) 2011-2023 Red Hat, Inc.
+#
+# Author: Tony Asleson <tasleson@redhat.com>
+
+import sys
+import syslog
+import traceback
+
+try:
+    from lsm import PluginRunner
+    from sim_plugin import SimPlugin
+
+    if __name__ == '__main__':
+        PluginRunner(SimPlugin, sys.argv).run()
+except Exception:
+    # This should be quite rare, but when it does happen this is pretty
+    # key in understanding what happened, especially when it happens when
+    # running from the daemon.
+    msg = str(traceback.format_exc())
+    syslog.syslog(syslog.LOG_ERR, msg)
+    sys.stderr.write(msg)
+    sys.exit(1)

@@ -1,0 +1,10 @@
+Filesystem                       Type      Size  Used Avail Use% Mounted on
+/dev/mapper/rl_device--1078-root xfs        36G  4.8G   31G  14% /
+devtmpfs                         devtmpfs  3.8G     0  3.8G   0% /dev
+tmpfs                            tmpfs     3.8G     0  3.8G   0% /dev/shm
+tmpfs                            tmpfs     1.5G  9.1M  1.5G   1% /run
+tmpfs                            tmpfs     1.0M     0  1.0M   0% /run/credentials/systemd-journald.service
+/dev/sda2                        xfs       960M  460M  501M  48% /boot
+/dev/mapper/rl_device--1078-home xfs        18G  373M   17G   3% /home
+tmpfs                            tmpfs     768M   72K  768M   1% /run/user/42
+tmpfs                            tmpfs     768M   56K  768M   1% /run/user/1000

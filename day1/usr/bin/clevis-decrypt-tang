@@ -1,0 +1,118 @@
+#!/usr/bin/bash -e
+# vim: set tabstop=8 shiftwidth=4 softtabstop=4 expandtab smarttab colorcolumn=80:
+#
+# Copyright (c) 2017 Red Hat, Inc.
+# Author: Nathaniel McCallum <npmccallum@redhat.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+[ $# -eq 1 ] && [ "$1" == "--summary" ] && exit 2
+
+if [ -t 0 ]; then
+    exec >&2
+    echo
+    echo "Usage: clevis decrypt tang < JWE > PLAINTEXT"
+    echo
+    exit 2
+fi
+
+read -r -d . hdr
+
+if ! jhd="$(jose b64 dec -i- <<< "$hdr")"; then
+    echo "Error decoding JWE protected header!" >&2
+    exit 1
+fi
+
+if [ "$(jose fmt -j- -Og clevis -g pin -u- <<< "$jhd")" != "tang" ]; then
+    echo "JWE pin mismatch!" >&2
+    exit 1
+fi
+
+if ! clt="$(jose fmt -j- -Og epk -Oo- <<< "$jhd")"; then
+    echo "JWE missing required 'epk' header parameter!" >&2
+    exit 1
+fi
+
+if ! kid="$(jose fmt -j- -Og kid -Su- <<< "$jhd")"; then
+    echo "JWE missing required 'kid' header parameter!" >&2
+    exit 1
+fi
+
+# Tang advertisement validation.
+if ! keys="$(jose fmt -j- -Og clevis -g tang -g adv -Oo- <<< "${jhd}")"; then
+    echo "JWE missing required 'clevis.tang.adv' header parameter!" >&2
+    exit 1
+fi
+
+# Check if the thumbprint we have in `kid' is in the advertised keys.
+CLEVIS_DEFAULT_THP_ALG=S256       # SHA-256.
+CLEVIS_DEFAULT_THP_LEN=43         # Length of SHA-256 thumbprint.
+CLEVIS_ALTERNATIVE_THP_ALGS=S1    # SHA-1.
+
+# Issue a warning if we are using a hash that has a shorter length than the
+# default one.
+if [ "${#kid}" -lt "${CLEVIS_DEFAULT_THP_LEN}" ]; then
+    echo "WARNING: tang using a deprecated hash for the JWK thumbprints" >&2
+fi
+
+if ! srv="$(jose jwk thp -i- -f "${kid}" -a "${CLEVIS_DEFAULT_THP_ALG}" \
+            <<< "${keys}")"; then
+    # `kid' thumprint not in the advertised keys, but it's possible it was
+    # generated using a different algorithm than the default one.
+    # Let us try the alternative supported algorithms to make sure `kid'
+    # really is not part of the advertised keys.
+    for alg in ${CLEVIS_ALTERNATIVE_THP_ALGS}; do
+        srv="$(jose jwk thp -i- -f "$kid" -a "${alg}" <<< "${keys}")" && break
+    done
+    if [ -z "${srv}" ]; then
+        echo "JWE header validation of 'clevis.tang.adv' failed: key thumbprint does not match" >&2
+        exit 1
+    fi
+fi
+
+if ! url="$(jose fmt -j- -Og clevis -g tang -g url -Su- <<< "$jhd")"; then
+    echo "JWE missing required 'clevis.tang.url' header parameter!" >&2
+    exit 1
+fi
+
+if ! crv="$(jose fmt -j- -Og crv -Su- <<< "$clt")"; then
+    echo "Unable to determine EPK's curve!" >&2
+    exit 1
+fi
+
+if ! eph="$(jose jwk gen -i "{\"alg\":\"ECMR\",\"crv\":\"$crv\"}")"; then
+    echo "Error generating ephemeral key!" >&2
+    exit 1
+fi
+
+xfr="$(jose jwk exc -i '{"alg":"ECMR"}' -l- -r- <<< "$clt$eph")"
+
+rec_url="$url/rec/$kid"
+ct="Content-Type: application/jwk+json"
+if ! rep="$(curl -sfg -X POST -H "$ct" --data-binary @- "$rec_url" <<< "$xfr")"; then
+    echo "Error communicating with server $url" >&2
+    exit 1
+fi
+
+if ! rep="$(jose fmt -j- -Og kty -q EC -EUUg crv -q "$crv" -EUUo- <<< "$rep")"; then
+    echo "Received invalid server reply!" >&2
+    exit 1
+fi
+
+tmp="$(jose jwk exc -i '{"alg":"ECMR"}' -l- -r- <<< "$eph$srv")"
+rep="$(jose jwk pub -i- <<< "$rep")"
+jwk="$(jose jwk exc -l- -r- <<< "$rep$tmp")"
+(echo -n "$jwk$hdr."; /bin/cat) | jose jwe dec -k- -i-
+exit $?
