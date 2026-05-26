@@ -1,0 +1,412 @@
+mkdir day2
+cd day2
+podman ps
+podman create --name web1 -p 8080:80 nginx:1.19.2
+docker ps
+podman ps
+podman start web1
+podman ps
+podman exec -it web1 bash
+podman stop web1 
+sysctl cat sshd
+systemctl cat sshd
+systemctl cat sshd > /etc/systemd/system/web1.service
+vi /etc/systemd/system/web1.service
+which podman
+vi /etc/systemd/system/web1.service
+podman stop --help
+vi /etc/systemd/system/web1.service
+systemctl daemon-reload 
+podman ps
+systemctl status web1.service 
+systemctl start web1.service 
+systemctl status web1.service 
+podman ps
+systemctl stop web1.service 
+podman ps
+cp -rp /etc/systemd/system/web1.service .
+ls -la 
+reboot
+echo 'systemctl restart web1.service' | now +2 minutes
+echo 'systemctl restart web1.service' | at now +2 minutes
+atq
+at -l
+at -c 1 
+echo "date" | at 13:00 
+at -l
+at -c 2
+systemctl status chronyd
+vi /etc/chrony.conf 
+chronyc sources
+chronyc sources -v
+chronyc sourcestats -v 
+chronyc tracking 
+timedatectl 
+timedatectl set-ntp false
+timedatectl 
+timedatectl set-ntp true
+timedatectl 
+cat /proc/partitions 
+pwd
+cd /
+tree 
+tree | head -100
+cd
+cd linux2_May/day2/
+ls -lai
+sysctl -a | grep inode
+\
+cat /proc/filesystems 
+cat /proc/filesystems |grep -v nodev
+df -hT 
+df -hT | grep xfs
+ip a
+pwd
+cd /home/student/
+pwd
+sudo -
+sudo -i
+cd
+cd linux2_May/day2/
+ls -la 
+vi testfile
+ln -s 
+ln -s --help 
+ln -s testfile hardlink
+ls -la 
+rm hardlink 
+ln -s testfile softlink 
+ls -la 
+vi softlink 
+vi testfile 
+rm softlink 
+rm testfile 
+ls -la 
+vi softlink 
+ls -la 
+cat testfile 
+ls -la i
+ls -lai
+ln testfile hardlink 
+ls -lai
+vi hardlink 
+vi testfile 
+rm testfile 
+vi testfile 
+vi hardlink 
+ln hardlink testfile
+ls -lai
+ls -la /usr/lib/systemd/system/runlevel*
+touch /root/securefile
+vi /root/securefile
+ln /root/securefile /home/student/securefile
+ln /root/securefile /student/securefile
+mkdir /student
+ln /root/securefile /student/securefile
+cd /student
+chown student:student . -R
+ls -la 
+cd
+ls -la /root/securefile
+cd linux2_May/
+cd day2/
+ls -la /sys/class/scsi_host/
+ls -la /sys/class/scsi_host/host0/scan 
+for i in 0 1 2 3 ; do echo "---" > /sys/class/scsi_host/host$i/scan; done
+for i in '0 1 2 3' ; do echo "---" > /sys/class/scsi_host/host$i/scan; done
+for i in 'seq 0 3' ; do echo "---" > /sys/class/scsi_host/host$i/scan; done
+seq 0 3
+for i in 'seq 0 3' ; do echo "---" > /sys/class/scsi_host/host$i/scan; done
+echo "---" > /sys/class/scsi_host/host0/scan 
+echo '---' > /sys/class/scsi_host/host0/scan 
+for i in 'seq 0 3' ; do echo "- - -" > /sys/class/scsi_host/host$i/scan; done
+echo '- - -' > /sys/class/scsi_host/host0/scan 
+for i in 'seq 0 3' ; do echo "- - -" > /sys/class/scsi_host/host$i/scan; done
+echo '- - -' > /sys/class/scsi_host/host1/scan 
+echo '- - -' > /sys/class/scsi_host/host2/scan 
+echo '- - -' > /sys/class/scsi_host/host3/scan 
+for i in `seq 0 3` ; do echo "- - -" > /sys/class/scsi_host/host$i/scan; done
+uname -r
+KERNEL=$(uname -r)
+echo $KERNEL 
+KERNEL2=`uname -r` 
+echo $KERNEL2 
+cat /proc/partitions 
+df -hT
+blkid 
+lsblk
+fdisk /dev/sdb
+cat /proc/partitions 
+lsblk 
+mkfs.xfs /dev/sdb1
+fdisk /dev/sdb
+lsblk 
+mkfs.xfs /dev/sdb1
+mkdir /opt
+mkdir /app1
+mount /dev/sdb1 /app1
+df -hT
+cd /app1/
+ls -la 
+touch plik1
+mkdir dir1
+xfs_info /dev/mapper/rl_device--1078-home 
+xfs_info /dev/sdb1
+vi /etc/fstab 
+blkid | grep sdb1
+blkid | grep sdb1 | awk '{print $2}'
+blkid | grep sdb1 | awk '{print $2}' >> /etc/fstab 
+vi /etc/fstab
+man /etc/fstab
+man mount
+vi /etc/fstab
+df -h
+cd 
+cd /app1/
+umount /app1 
+cd
+umount /app1 
+df -h
+mount -a 
+systemctl daemon-reload
+mount -a 
+df -h
+cd /app1/
+vi show-kernel.sh
+chmod +x show-kernel.sh 
+./sh
+./show-kernel.sh
+mount | grep pp1
+mount -o remount,exec /app1
+mount | grep pp1
+./show-kernel.sh
+cd 
+umount /app1 
+fdisk /dev/sdb
+lsblk 
+gdisk /dev/sdb
+man wipefs 
+wipefs -h
+wipefs -a /dev/sdb
+gdisk /dev/sdb
+lsblk 
+mkfs.ext4 /dev/sdb1 
+blkid
+vi /etc/fstab 
+mount -a
+systemctl daemon-reload
+mount -a
+df -h
+df -hT
+man mount
+fdisk /dev/sdb
+gdisk /dev/sdb
+f -h
+df -h
+umount /app1
+lsblk
+gdisk /dev/sdb
+wipefs -a /dev/sdb
+lsblk 
+pvcreate /dev/sdb
+pvs 
+pvdisplay /dev/sdb
+vgcreate /dev/sdb vg_data
+vgcreate
+vgcreate vg_data /dev/sdb
+pvs
+vgs
+vgdisplay vg_data
+vgcreate --help
+vgs
+lvcreate --help
+lvcreate -L 1G -n lvapp1 vg_data  
+lvs
+lvdisplay lvapp1
+lvdisplay /dev/vg_data/lvapp1
+lsblk
+ls -la /dev/mapper/
+ls -la /dev/dm-3 
+ls -la /dev/vgdata
+cd /dev
+ls -al 
+ls -al vg_data
+cd
+cd linux2_May/
+cd day2/
+mkfs.xfs /dev/vg_data/lvapp1 
+mount /dev/vg_data/lvapp1 /app1
+df -h
+blkid
+cd /app1/
+ls -la 
+dd if=/dev/urandom of=bigfile1 bs=1M count=900
+df -h
+lvs
+vgs
+lvextend --help
+lvextend -L +4G -r /dev/vg_data/lvapp1 
+lvextend -l 1023 -r /dev/vg_data/lvapp1 
+df -h
+ls -la 
+dd if=/dev/urandom of=bigfile2 bs=1M count=2800
+df -h
+mv bigfile2 /app1/
+df -h
+lvs
+vgs
+lvextend -l +100%FREE -r /dev/vg_data/lvapp1
+vgs
+df -h
+dd if=/dev/urandom of=/app1/bigfile3 bs=1M count=1100
+df -h
+vgs
+lsblk 
+pvcreate /dev/sdc
+vgextend --help 
+vgextend vg_data /dev/sdc
+vgs
+lvextend -l +100%FREE -r /dev/vg_data/lvapp1
+df -h
+ls -la /app1/
+ls -lah /app1/
+umount /app1
+xfsdump -f app1.dump /app1
+mount /dev/vg_data/lvapp1 /app1
+xfsdump -f app1.dump /app1
+ls -lah app1.dump 
+umount /app1
+lvs
+lvreduce -L 6G /dev/vg_data/lvapp1 
+lvremove /dev/vg_data/lvapp1 
+lvcreate -L 6G -n lvapp vg_data 
+lvs
+mkfs.xfs /dev/vg_data/lvapp 
+mount /dev/vg_data/lvapp /app1
+xfsrestore -f app1.dump /app1
+df -h
+ls -lah /app1/
+vgs
+lsblk 
+pvcreate /dev/sdd
+vgextend vg_data /dev/sdd
+vgs
+lvs
+df -h
+lvcreate -L 8G -s -n lvapp-snap /dev/vg_data/lvapp
+lvs
+rm -rf /app1/bigfile1 
+df -h
+rm -rf /app1/bigfile2
+df -h
+lvs
+cd /app1/
+dd if=/dev/urandom of=/app1/bigfile-snap bs=1M count=500
+lvs
+cd
+df -h
+lvs
+lvconvert --merge /dev/vg_data/lvapp
+lvconvert --merge /dev/vg_data/lvapp-snap 
+lvs
+ls -la /app1/
+umount /app1 
+lvchange --refresh ; watch -n1 lvs
+lvchange --refresh
+lvchange --help
+lvchange --refresh /dev/vg_data/lvapp 
+ watch -n1 lvs
+lvchange --refresh /dev/vg_data/lvapp 
+ watch -n1 lvs
+mount /dev/vg_data/lvapp /app1
+ls -al /app1 
+lvcreate -L 8G -s -n lvapp-snap /dev/vg_data/lvapp
+lvs
+rm -rf /app1/bigfile1 /app1/bigfile2
+lvs
+df -h
+lvs
+umount /app1 
+lvs
+lvconvert --merge /dev/vg_data/lvapp-snap 
+mount /dev/vg_data/lvapp  /app1 
+ls -la /app1/
+dnf provides gdisk
+dnf install gdisk 
+swapon -s
+cat /proc/swaps 
+df -h
+cd /app1/
+ls -la 
+ls -lah 
+mkswap bigfile2 
+swapon -s
+swapon bigfile2
+swapon -s
+swapoff -a
+swapon -s
+swapon -a
+swapon -s
+cd
+umount /app1 /
+df -h
+lsblk
+lvs
+lvremove lvapp
+lvremove /dev/vg_data/lvapplvapp
+lvremove /dev/vg_data/lvapp
+lvs
+vgs
+vgremove vg_data 
+pvs
+pvremove /dev/sd[b-d] 
+lsblk 
+wipefs -a /dev/sdb
+wipefs -a /dev/sdc
+wipefs -a /dev/sdd
+lsmod | grep crypt
+modprobe dm_crypt
+lsmod | grep crypt
+dnf install cryptsetup
+cryptsetup --version
+cryptsetup luksFormat /dev/sdb
+cryptsetup luksOpen /dev/sdb secure_data
+ls -la /dev/
+ls -la /dev/mapper/
+mkfs.xfs /dev/mapper/secure_data 
+mkdir /secure
+mount /dev/mapper/secure_data /secure/
+df -h
+umount /secure
+cryptsetup luksClose /dev/mapper/secure_data
+ls -la /dev/mapper/
+vi /etc/crypttab 
+dd if=/dev/urandom of=/root/lukskey bs=32 count=1
+vi lukskey 
+xxd lukskey
+cryptsetup luksAddKey /dev/sdb lukskey 
+cryptsetup luksDump /dev/sdb
+vi /etc/crypttab 
+df -h
+vi /etc/fstab 
+vi /etc/crypttab 
+vi /etc/fstab 
+reboot
+vi /etc/fstab 
+reboot
+vi /etc/fstab 
+vi /etc/cryptyab
+vi /etc/crypttab
+reboot
+vi /etc/fstab 
+reboot
+vi /etc/fstab 
+vi /etc/crypttab 
+reboot
+cryptsetup luksDump /dev/sdb
+vi /etc/crypttab 
+reboot
+vi /etc/fstab 
+reboot
+history
+history | awk '$1 > 89' | cut -c 8- > linux2_May/day2/day2-history.txt 

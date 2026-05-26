@@ -1,0 +1,13 @@
+[Unit]
+Description=My podman web1 webserver
+After=network.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/bin/podman start -a web1
+ExecStop=/bin/podman stop -t 10 web1
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=default.target
