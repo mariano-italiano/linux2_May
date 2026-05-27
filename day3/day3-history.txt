@@ -1,0 +1,325 @@
+cd linux2_May
+mkdir day3
+cd day3
+lsblk 
+vi /etc/fstab 
+df -h
+vi /etc/fstab 
+lsblk 
+blkid
+vi /etc/fstab 
+dnf install mdadm
+mdadm --help
+man mdadm
+mdadm -E /dev/sd[a-c] 
+mdadm --create /dev/md5 --level=5 --raid-devices=3 /dev/sd[a-c]
+mdadm --detail /dev/md5
+lsblk 
+mdadm --manage --add /dev/md5 /dev/sde 
+mdadm --detail /dev/md5
+mkfs.xfs /dev/md5 
+mkdir /raid5
+mount /dev/md5 /raid5/ 
+systemctl daemon-re
+systemctl daemon-reload 
+df -h
+cd /raid5/
+dd if=/dev/urandom of=/raid5/bigfile1 bs=1M count=1024
+dd if=/dev/urandom of=/raid5/bigfile2 bs=1M count=4096
+ls -lah
+df -h
+mdadm -D /dev/md5
+mdadm --manage --fail /dev/md5 /dev/sda 
+watch -n1 mdadm -D /dev/md5
+blkid
+mdadm --detail --scan --verbose 
+mdadm --detail --scan --verbose > /etc/mdadm.conf
+vi /etc/mdadm.conf
+ls -la /dev/ | grep md5
+mdadm --stop /dev/md5 
+cd 
+umount /raid5
+mdadm --stop /dev/md5 
+mdadm -D /dev/md5
+ls -la /dev/ | grep md5
+mdadm --assemble /dev/md5 
+ls -la /dev/ | grep md5
+mdadm -D /dev/md5
+mdadm --manage --add /dev/md5 /dev/sda  
+mdadm -D /dev/md5
+mdadm --remove /dev/md5 
+mdadm --zero-superblock /dev/sd[a-c] /dev/sde 
+wipefs -a /dev/sd[a-c]
+lsblkl
+lsblk
+mdadm --remove /dev/md5 
+lsblk
+mdadm --stop /dev/md5 
+mdadm --remove /dev/md5 
+lsblk
+mdadm --zero-superblock /dev/sd[a-c] /dev/sde 
+lsblk
+mdadm -E /dev/sd[a-c] 
+cd linux2_May/day3/
+ls -la
+cat /etc/passwd
+ls -la /etc/passwd
+ls -la /etc/shadow
+vi /etc/shadow
+ls -la /etc/shadow
+vi /etc/passwd
+mkdir /home/student2
+chown student2:student2 /home/student2 -R
+vi /etc/group
+chown student2:student2 /home/student2 -R
+ls -la /home/student
+ls -la /home/student2
+id student
+ls -la /etc/skel/
+vi /etc/login.defs 
+cat /etc/passwd
+vi /etc/login.defs 
+vi /etc/default/useradd 
+id 
+id student
+less /etc/passwd
+less /etc/shadow
+useradd pioter
+less /etc/shadow
+passwd pioter 
+less /etc/shadow
+mkdir myskel 
+cd myskel/
+ln -s /etc/ssh/sshd_config ssh-conf 
+ls -l
+vi skrypt.sh
+chmod +x skrypt.sh 
+touch file1
+mkdir test1
+ls -l 
+useradd -m -s /bin/sh  -d /app1/test -u 2000 -g 2000 -G wheel -c "Testowy user dla szkolenia" -k /root/linux2_May/day3/myskel/ testuser
+useradd -m -s /bin/sh  -d /app1/test -u 2000 -G wheel -c "Testowy user dla szkolenia" -k /root/linux2_May/day3/myskel/ testuser
+cat /etc/passwd
+id testuser 
+ls -la /app1/test/
+passwd testuser 
+usermod --help 
+usermod -s /sbin/nologin testuser
+usermod -s /bin/bash testuser
+usermod -m /home/testuser testuser
+usermod -m -d /home/testuser testuser
+ls -la /bin/sh 
+userdel --help 
+userdel -r testuser
+ls -la /app1/
+id student2
+useradd testuser -G student,student2,wheel 
+id testuser 
+usermod -G dnsmasq testuser 
+id 
+cat /etc/passwd
+q
+vi /etc/group
+usermod -G dnsmasq testuser 
+id 
+usermod -G student testuser 
+id 
+id student
+id testuser
+usermod -G dnsmasq testuser 
+id testuser
+usermod --help 
+id testuser
+usermod -aG student testuser 
+id testuser
+usermod -aG wheel testuser 
+id testuser
+id 
+cat /etc/passwd
+userdel -r pioter 
+useradd teresa 
+cat /etc/passwd
+useradd -u 4000 marzena
+useradd testuser2 
+cat /etc/passwd
+ls -la $(which passwd)
+passwd -l
+passwd -h
+chage -l student
+chage --help 
+chage -M 60 student2 
+chage -W 14  student2 
+chage -I 14 student2 
+chage -E 2026-06-01 student2 
+chage -l student2
+chage -d 0 student2
+chage -l student2
+chage -m0 -M 99999 -I -1 -E -1 student2 
+chage -l student2
+passwd -S student2
+vi /etc/security/pwquality.conf
+dnf install epel-release -y
+dnf install snapd –y
+dnf install snapd
+dnf install snapd --skip-broken
+dnf install snapd --skip-broken --nobest
+dnf install snapd --nobest
+systemctl status snapd
+systemctl status snap
+systemctl status snapd.socket
+dnf install selinux-policy 
+cd ..
+git clone https://github.com/openwall/john 
+cd john/src&& ./configure && make -sj4
+dnf install gcc
+./configure && make -sj4
+./configure && make -sj4 --without-openssl
+ls -la 
+cd ..
+ls -la 
+cd run
+python3 -m venv venv
+. venv/bin/activate
+pip3 install -r requirements.txt 
+deactivate 
+dnf provides snapd
+dnf install snapd-2.70
+dnf --showduplicates list snapd
+dnf install --nobest snapd
+dnf config-manager --set-enabled crb
+dnf install --nobest snapd
+./john --test 
+cd ..
+rm -rf john/
+visudo 
+vi /etc/sudoers
+ls -la /etc/sudoers 
+vi /etc/sudoers
+groupadd finanse ksiegowosc
+groupadd finanse 
+groupadd ksiegowosc
+cat /etc/passwd|tail
+usermod -aG finanse teresa 
+usermod -aG ksiegowosc marzena 
+id marzena; id teresa
+vi /etc/sudoers
+vi /etc/sudoers.d/ksiegowosc
+su - marzena 
+vi /etc/sudoers
+su - marzena 
+su - teresa
+passwd teresa
+passwd marzena
+su - teresa
+vi /etc/sudoers
+su - teresa
+vi /etc/sudoers
+su - teresa
+vi /etc/sudoers
+su - teresa
+ls -la 
+ls -la ../day2
+ls -la /dev/sdb 
+ls -la /dev/tty
+ls -la passwd
+ls -la $(which passwd)
+ps -ef | grep -i passwd
+ls -la $(which ping)
+ls -la /bin/ping
+ls -la $(which visudo)
+ls -la 
+cp -rp myskel/skrypt.sh .
+ls -la 
+chmod 644 skrypt.sh 
+ls -la 
+chmod 4644 skrypt.sh 
+ls -la 
+chmod 4744 skrypt.sh 
+ls -la 
+which mount
+ls -la /bin/mount
+ls -la /bin/su
+mkdir gid-dir 
+ls -la 
+chgrp ksiegowosc gid-dir/
+ls -la 
+touch gid-dir/testfile 
+touch gid-dir/testfile2
+mkdir gid-dir/testdir1
+tree gid-dir/
+ls -la gid-dir/
+ls -la 
+chmod 2755 gid-dir/
+mkdir gid-dir/testdir2
+touch gid-dir/testfile3
+ls -la 
+ls -la  gid-dir/
+touch gid-dir/testdir2/file1
+ls -la  gid-dir/testdir2/
+ls -al /tmp 
+su -teresa
+su - teresa
+ls -la 
+touch plik
+ls -la plik 
+umask 
+umask 0000
+umask 
+touch plik1
+ls -la 
+mkdir testdir
+ls -la 
+echo $UMASK
+vi /etc/login.defs 
+
+source .bashrc
+source ~/.bashrc 
+umask 
+source ~/.bash_profile 
+umask 
+umask 0022
+umask 0026
+ls -la 
+touch plik3
+ls -la 
+umask 0022
+mkdir dev
+chown student:ksiegowosc 
+chown student:ksiegowosc dev
+ls -la dev
+chmod 750 dev
+ls -la 
+setfacl --help
+setfacl -m g:finanse:rwx dev
+ls -la 
+getfacl -c dev
+getfacl dev
+getfacl -c dev
+mv dev/ /tmp/
+ls -la /tmp/dev
+getfacl -c /tmp/dev/
+setfacl -m u:student2:rx /tmp/dev/
+getfacl -c /tmp/dev/
+setfacl -m u:student2:rwx /tmp/dev/
+setfacl -m d:u:marzena:7 /tmp/dev
+getfacl -c /tmp/dev/
+setfacl -k /tmp/dev
+getfacl -c /tmp/dev/
+setfacl -m d:u:student2:7 /tmp/dev
+getfacl -c /tmp/dev/
+setfacl -x u:student2 /tmp/dev/
+getfacl -c /tmp/dev/
+setfacl -k /tmp/dev/
+getfacl -c /tmp/dev/
+setfacl -b /tmp/dev/
+getfacl -c /tmp/dev/
+ls -al /tmp/dev/
+vi /etc/pam.d/password-auth 
+vi /etc/pam.d/sshd 
+vi /etc/ssh/sshd.deny
+journalctl 
+less /var/log/audit/audit.log 
+less /var/log/messages 
+less /var/log/secure 
+history
+history | awk '$1 > 522' | cut -c 8- > day3-history.txt 
