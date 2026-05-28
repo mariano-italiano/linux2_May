@@ -1,0 +1,5 @@
+dn: cn=devs,ou=groups,dc=lab,dc=local
+objectClass: top
+objectClass: posixGroup
+gidNumber: 200001
+memberUid: adam

@@ -1,0 +1,15 @@
+dn: uid=adam,ou=people,dc=lab,dc=local
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Adam Nowak
+uid: adam
+uidNumber: 200001
+gidNumber: 200001
+homeDirectory: /home/adam
+loginShell: /bin/bash
+gecos: Adam Nowak
+userPassword: {CRYPT}$6$9JGYoEGF8lvHwG9U$gim1too2wukLZCgy09sSRQigOT6Yn0kGhViE59EMJdJvGxOrsQStJklq3ZNlrV//RnS/Yc8Z.0OExyqFIEWPH0
+shadowMin: 0
+shadowMax: 99999

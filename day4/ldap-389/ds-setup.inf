@@ -1,0 +1,12 @@
+[general]
+config_version = 2
+
+[slapd]
+instance_name = lab
+root_password = AdminPass123
+root_dn = cn=Directory Manager
+
+[backend-userroot]
+suffix = dc=lab,dc=local
+sample_entries = yes
+create_suffix_entry = yes

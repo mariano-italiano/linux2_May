@@ -1,0 +1,279 @@
+ls -la
+vi /etc/ssh/sshd.deny 
+vi /etc/pam.d/sshd 
+cp -rp /etc/pam.d/sshd .
+vi /etc/pam.d/sshd 
+vi /etc/security/time.conf 
+journalctl 
+journalctl -u sshd
+vi /etc/pam.d/sshd 
+vi /etc/ssh/sshd.deny 
+vi /etc/pam.d/sshd 
+vi /etc/ssh/sshd.deny 
+journalctl -u sshd
+vi /etc/pam.d/sshd 
+authselect current 
+rpm -qa | grep authselect
+rpm -qa | grep pam
+authselect enable-feature with-faillock 
+authselect current 
+vi /etc/security/faillock.conf 
+faillock --user student
+journalctl 
+journalctl -f
+faillock --user student
+journalctl -f
+faillock --user student
+faillock --user student --reset 
+faillock --user student
+dnf install openldap-servers openldap-clients -y
+dnf install openldap-servers 
+dnf install openldap-clients 
+dnf install openldap-servers
+dnf install -y 389-ds-base openldap-clients python3-lib389
+vi ds-setup.inf
+mkdir ldap-389
+cd ldap-389/
+mv ../ds-setup.inf .
+ls -la 
+dscreate from-file ds-setup.inf
+dsctl lab status
+dsctl lab healthcheck
+systemctl status dirsrv
+systemctl status dirsrv@lab
+netstat -vatnulp | grep -e 389 -e 636 
+vi ds-setup.inf 
+ldapsearch --help
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" 
+vi ds-setup.inf 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL | grep -i dn
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL | grep -i dn:
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(objectClass=posixAccount)"
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(objectClass=posixAccount)" dn,uid
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(objectClass=posixAccount)" dn uid
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(objectClass=posixAccount)" dn uid homeDirectory
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(uid=demo*) 
+"
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(uid=demo*)"
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(cn=demo*)"
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(&(cn=demo*)(objectClass=organizationalunit))"
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(||(cn=demo*)(objectClass=organizationalunit))"
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(cn:caseExactMatch:=Demo*)"
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(cn:caseExactMatch:=Demo User)"
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "(cn:caseExactMatch:=demo_group)"
+openssl passwd -6 'student123!'
+group.ldif
+vi group.ldif
+vi /etc/login.defs 
+vi group.ldif
+ldapadd -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 -f group.ldif 
+vi users.ldif
+ldapadd -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 -f users.ldif 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "uid=adam"
+vi adam_update.ldif
+ldapmodify -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 -f adam_update.ldif 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "uid=adam"
+vi adam_update.ldif
+ldapmodify -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 -f adam_update.ldif 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "uid=adam"
+ldapdelete -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 "uid=adam,ou=people,dc=lab,dc=local" 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "uid=adam"
+ldapadd -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 -f users.ldif 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "uid=adam"
+ldapmodify -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 -f adam_update.ldif 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "uid=adam"
+journalctl 
+dnf install -y sssd sssd-ldap oddjob-mkhomedir openldap-clients 
+systemctl status sssd
+vi /etc/sssd/sssd.conf 
+systemctl start sssd 
+journalctl 
+systemctl status firewalld.service 
+systemctl stop firewalld 
+systemctl restart sssd 
+journalctl -xeu sssd.service
+systemctl start firewalld 
+ls -la /etc/sssd/sssd.conf 
+chmod 600 /etc/sssd/sssd.conf 
+systemctl restart sssd 
+journalctl -xeu sssd.service
+systemctl status firewalld.service 
+systemctl status sssd 
+cd linux2_May/day4/
+la -la ldap-389/
+ls -la ldap-389/
+vi ldap-389/users.ldif 
+journalctl 
+journalctl -f 
+vi /etc/sssd/sssd.conf 
+systemctl restart sssd
+journalctl -f 
+rpm -qa | grep authselect
+authselect select sssd with-mkhomedir --force 
+systemctl enable --now oddjobd.service
+systemctl enable --now sssd
+journalctl -f 
+faillock --user adam
+journalctl 
+ldapsearch -x -H ldap://localhost -b "dc=lab,dc=local" -D "cn=Directory Manager" -w AdminPass123 -LLL "uid=adam"
+getent passwd adam
+openssl passwd -6 'student123!'
+ldapdelete -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 "uid=adam,ou=people,dc=lab,dc=local" 
+vi ldap-389/users.ldif 
+ldapadd -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 -f users.ldif 
+ldapadd -x -H ldap://localhost -D "cn=Directory Manager" -w AdminPass123 -f ldap-389/users.ldif 
+cat /etc/passwd
+cat /etc/passwd | grep adam
+cd ldap-389/
+cp -rp /etc/sssd/sssd.conf .
+vi README.md
+LDIF_USER_PASS="{CRYPT}$(openssl passwd -6 'mojetajnehaslotutaj')" 
+echo $LDIF_USER_PASS 
+vi README.md
+vi /etc/hosts
+history | grep enable --now
+history | grep "enable --now"
+history | grep "systemctl 
+systemctl status dirsrv@lab
+systemctl disable --now dirsrv@lab
+systemctl status dirsrv@lab
+netstat -vatnulp | grep slap
+netstat -vatnulp | grep -e 636 -e 389
+cd ..
+ipa-server-install --setup-dns--domain=lab.local--realm=LAB.LOCAL 
+ipa-server-install --setup-dns --domain=lab.local --realm=LAB.LOCAL 
+ipa-server-install --setup-dns 
+dnf provides ipa-server-dns
+dnf install ipa-server-dns
+rpm -qa | grep ipa
+rpm -qa | grep ipa-server
+ipa-server-install --setup-dns --domain=lab.local --realm=LAB.LOCAL 
+systemctl stop firewalld
+authselect --enablemkhomedir --update
+dnf install authconfig
+dnf provides authconfig
+ipa --help
+ipa user-add akowalski --first Adam --last=Kowalski --password
+kinit admin
+klist 
+ipa user-add akowalski --first Adam --last=Kowalski --password
+man ps
+ps -ef
+ps aux 
+htop
+tops\
+top
+ps -ef
+ps aux 
+man ps
+ps -ejH 
+ps -eL 
+ps -efd
+man ps
+ps axo ppid,pid,pcpu,comm
+ps axo ppid,pid,pcpu,pmem,comm
+ps -ef | grep sshd
+pgrep sshd
+pgrep -u studentsshd
+pgrep -u student sshd
+pgrep -v -u student sshd
+ulimit 
+ulimit --help
+builtin 
+man ulimit 
+ulimit --help
+kill -l
+ps -ef | grep sshd
+kill -19 19602
+kill -18 19602
+ls -lx
+ls -lqwe
+vi test-nice.sh
+chmod +x test-nice.sh 
+nice -20 ./test-nice.sh & 
+ps -ef | grep test-nice
+ps aux | grep test-nice
+man ps 
+ps -eo pid,ni,pri,comm | grep test-nice 
+ps -ef
+ps -efd
+ps -efdl
+renice -70 19793 
+ps -efdl
+renice +300 19793 
+ps -efdl
+kill 19794 
+ls -la /proc/sys
+sysctl -a
+sysctl -a | wc -l
+ls -la /proc/sys/vm/swappiness 
+cat /proc/sys/vm/swappiness
+echo 60 > /proc/sys/vm/swappiness
+cat /proc/sys/vm/swappiness
+sysctl -a | grep swappin
+vi /etc/sysctl.d/99-sysctl.conf 
+vi /etc/sysctl.conf
+sysctl --system 
+sysctl -a | grep swappin
+sysctl --help 
+sysctl -a | grep ip_forward
+sysctl -a | grep hugepage
+sysctl -a | grep vm.overcomm
+sysctl -a | grep icmp_echo
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all 
+echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all 
+lsmod  | grep crypt
+vi /etc/modules-load.d/luks.conf 
+lsmod
+ls -la /lib/modules/
+uname -r
+ls -la /lib/modules/6.12.0-124.56.1.el10_1.x86_64
+find /lib/modules/$(uname -r) -type f -name '*.ko*'
+find /lib/modules/$(uname -r) -type f -name '*.ko*' | wc -l 
+lsmod | wc -l
+find /lib/modules/$(uname -r) -type f -name '*.ko*' | grep e1000
+lsmod | grep e1000
+modprobe e100 
+modprobe e1000
+lsmod | grep e1000
+modinfo e1000
+modprobe --help 
+modinfo -r e1000
+modprobe -r e1000
+lsmod | grep e1000
+ls -al /run/log/journal/
+getfacl -c /run/log/journal/
+getfacl -c /run/log/journal/235d49520ed345a5a71373200b9c6049/system.journal 
+ls -la /run/log/journal/235d49520ed345a5a71373200b9c6049/system.journal 
+file /run/log/journal/235d49520ed345a5a71373200b9c6049/system.journal 
+vi /run/log/journal/235d49520ed345a5a71373200b9c6049/system.journal
+journalctl 
+journalctl -b
+journalctl -u crond 
+journalctl -u ipa
+which crond
+journalctl -u /sbin/crond 
+journalctl -p err
+journalctl -f 
+vi /etc/hosts
+journalctl -f 
+journalctl -o verbose
+journalctl --since=-15min
+journalctl --since=today
+journalctl --since=-15min -u ipa
+journalctl --since=-15min -u chronyd
+journalctl --since=-15min _SYSTEMD_UNIT=chronyd.service
+journalctl --since=today _SYSTEMD_UNIT=chronyd.service
+ls -la /var/log/
+mkdir /var/log/journal 
+ls -la /run/log/journal/
+systemctl restart systemd-journald
+ls -la /run/log/journal/
+vi /etc/systemd/
+find / -name journald.conf
+vi /usr/lib/systemd/journald.conf
+history
+history | awk '$1 > 530' | cut -c 8- > day4-history.txt
