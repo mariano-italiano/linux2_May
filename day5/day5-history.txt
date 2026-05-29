@@ -1,0 +1,352 @@
+hostnamectl -f
+hostname -f
+hostnamectl set-hostname rocky.lab.local 
+hostname -f
+hostnamectl set-hostname rocky10.lab.local 
+ip 
+ip address show 
+ip a s
+ping 192.168.1.200
+ping 192.168.1.180
+ip a a 192.168.1.180/24 dev ens18 
+ip a s
+ifconfig 
+ip a s
+nmcli connection down ens18 ; nmcli connection up ens18 
+ip a s
+ip r s
+ip route show 
+ip route add 172.16.1.0/24 via 192.168.1.1 
+ip r s
+ip route add 172.16.2.0/24 via 172.16.2.1 
+nmcli connection down ens18 ; nmcli connection up ens18 
+ip r s
+nmcli connection show 
+nmcli device status
+nmcli device show
+nmcli connection add con-name dmz ifname ens18 type ethernet ip4 192.168.1.180/24 gw4 192.168.1.1 
+nmcli connection show 
+nmcli connection delete dmz 
+nmcli connection show 
+ip a s
+nmcli connection add con-name dmz ifname ens19 type ethernet ip4 192.168.1.180/24 gw4 192.168.1.1 
+nmcli connection show 
+nmcli device show
+nmcli connection down dmz
+nmcli connection show 
+nmcli connection up dmz
+nmcli connection show 
+nmcli connection modify 
+nmcli connection modify dmz ipv4.dns-search lab.local 
+nmcli connection modify dmz ipv4.dns 8.8.8.8 
+nmcli connection show 
+nmcli device show
+nmcli connection down dmz
+nmcli connection up dmz
+nmcli device show
+nmcli connection edit 
+nmcli connection edit dmz 
+nmcli device show
+nmcli connection down dmz; nmcli connection up dmz
+nmcli device show
+la -la ~/
+ls -la ~/
+cd
+ls -la 
+find / -name .nmcli-history
+cd linux2_May/
+cd day5
+nmtui
+ip as
+ip a s
+nmcli connection show
+nmcli device show
+nmtui
+nmtui-edit 
+nmcli connection show
+ip a s
+vi /etc/resolv.conf 
+nmcli connection down ens18 ; nmcli connection up ens18 
+vi /etc/resolv.conf 
+nslookup wp.pl
+vi /etc/resolv.conf 
+nslookup wp.pl
+vi /etc/nsswitch.conf 
+vi /etc/hosts
+nslookup wp.pl
+vi /etc/hosts
+nslookup wp.pl
+systemctl status ipa
+systemctl stop ipa
+nmtui
+nmcli connection down ens18 ; nmcli connection up ens18 
+vi /etc/resolv.conf 
+nslookup wp.pl
+vi /etc/resolv.conf 
+nslookup wp.pl
+vi /etc/nsswitch.conf 
+dnf provides traceroute
+dnf install traceroute
+traceroute wp.pl
+traceroute --help 
+traceroute -I wp.pl
+traceroute wp.pl
+ping wp.pl
+nslookup wp.pl
+dig @192.168.1.1 wp.pl +short
+dig @localhost wp.pl +short
+vi /etc/nsswitch.conf 
+ping wp.pl
+traceroute wp.pl
+traceroute -I wp.pl
+tracepath wp.pl
+tracepath --help
+curl -v telnet://wp.pl:443 
+curl -v telnet://192.168.1.240:443 
+curl -v telnet://192.168.1.240:8006
+telnet
+telnet wp.pl 22
+telnet wp.pl 443
+nslookup wp.pl
+nslookup 
+systemctl status firewalld.service 
+firewall-cmd --list-all
+firewall-cmd --state
+firewall-cmd --get-default-zone 
+firewall-cmd --get-zones
+firewall-cmd --zone=home --list-all
+firewall-cmd --zone=dmz --list-all
+firewall-cmd --zone=internal --list-all
+ls -la /usr/lib/firewalld/
+ls -la /usr/lib/firewalld/zones/
+vi /usr/lib/firewalld/zones/public.xml 
+ls -la /usr/lib/firewalld/services/
+ls -la /usr/lib/firewalld/services/ | wc -l 
+vi /usr/lib/firewalld/services/samba.xml 
+cat /etc/services 
+cat /etc/services |grep -i samba
+cat /etc/services |grep -e samba -e winbind
+cat /etc/services |grep -i -e samba -e winbind
+vi /usr/lib/firewalld/services/samba.xml 
+cat /etc/services |grep -e 139 -e 445
+cat /etc/services |grep -i nfs
+vi /usr/lib/firewalld/services/nfs.xml 
+vi /usr/lib/firewalld/services/nfs3.xml 
+vi /usr/lib/firewalld/services/nfs.xml 
+vi /usr/lib/firewalld/services/ftp.xml 
+firewall-cmd --list-all
+firewall-cmd --add-service=https --permanent
+firewall-cmd --list-all
+firewall-cmd --reload
+firewall-cmd --list-all
+firewall-cmd --add-protocol=icmp --permanent
+firewall-cmd --reload
+firewall-cmd --list-all
+firewall-cmd --add-port=3128/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --list-all
+firewall-cmd --remove-port=3128 --permanent 
+firewall-cmd --remove-port=3128/tcp --permanent 
+firewall-cmd --reload
+firewall-cmd --list-all
+firewall-cmd --info-service=nfs3
+firewall-cmd --info-service=ipa
+firewall-cmd --info-service=ipa-server
+ls -la /usr/lib/firewalld/services/ | grep -ipa
+ls -la /usr/lib/firewalld/services/ | grep -i ipa
+firewall-cmd --info-service=freeipa-4.xml
+firewall-cmd --info-service=freeipa-4
+firewall-cmd --zone=dmz --list-all
+firewall-cmd --zone=dmz --add-service=freeipa-4 --permanent 
+firewall-cmd --reload
+firewall-cmd --zone=dmz --list-all
+firewall-cmd --permanent --new-service=myservice --set-description="My custom service"
+firewall-cmd --reload
+ls -la /usr/lib/firewalld/services/ | grep -i myservice
+ls -la /usr/lib/firewalld/services
+ls -la /etc/firewalld/services/
+vi  /etc/firewalld/services/myservice.xml 
+firewall-cmd --permanent --service=myservice --add-port=1234/tcp
+firewall-cmd --permanent --service=myservice --add-protocol=icmp
+firewall-cmd --permanent --service=myservice --add-port=8080/tcp
+firewall-cmd --reload
+vi  /etc/firewalld/services/myservice.xml 
+firewall-cmd --info-service=myservice
+firewall-cmd --reload
+firewall-cmd --info-service=myservice
+cd
+mkdir /nfs-share 
+mkdir /nfs-share/{Production,Development}
+tree /nfs-share/
+chgrp student /nfs-share/Development/
+chgrp student /nfs-share/Production/
+ls -la /nfs-share/
+chmod 770 /nfs-share/Development/
+chmod 750 /nfs-share/Production/
+ls -la /nfs-share/
+dnf install nfs-utils -y
+systemctl enable --now nfs-server.service 
+systemctl status nfs-server.service 
+vi /etc/nfs.conf 
+vi /etc/exports
+exportfs -rav 
+systemctl status rpcbind
+rpcinfo -p localhost
+firewall-cmd --list-all
+firewall-cmd --add-service=rpc-bind --add-service=nfs
+firewall-cmd --add-service=rpc-bind --add-service=nfs --permanent 
+firewall-cmd --reload
+firewall-cmd --list-all
+firewall-cmd --add-service=mountd --permanent 
+firewall-cmd --reload
+firewall-cmd --list-all
+cd /nfs-share/Development/
+ls -la 
+id student
+ls -la 
+dnf install samba samba-common samba-client
+groupadd devops
+useradd alicja 
+useradd linda
+passwd alicja 
+passwd linda
+usermod -aG devops alicja 
+mkdir /smb-share
+chmod 2770 /smb-share/
+chgrp devops /smb-share/
+chown linda /smb-share/
+ls -la /smb-share/
+mkdir /smb-public 
+chown student:student /smb-public
+systemctl status smb.service 
+vi /etc/samba/smb.conf
+systemctl start smb.service 
+systemctl status smb.service 
+testparm
+smbpasswd -a linda
+smbpasswd -a alicja
+smbpasswd -a student
+smbstatus 
+firewall-cmd --list-all
+firewall-cmd --add-service=samba --permanent 
+firewall-cmd --reload
+firewall-cmd --list-all
+vi /etc/samba/smb.conf
+smbstatus 
+cd /smb-share/
+ls -la 
+getenforce 
+journalctl 
+less /var/log/samba/log.smbd 
+semanage fcontext -a -t samba_share_t "/smb-share(/.*)?"
+restorecon -Rv /smb-share/
+systemctl restart smb
+semanage fcontext -a -t samba_share_t "/smb-public(/.*)?"
+restorecon -Rv /smb-public/
+restorecon -Rv /smb-share/
+semanage fcontext -a -t samba_share_t "/smb-public(/.*)?"
+systemctl restart smb
+smbstatus
+ls -la /smb-public/
+smbstatus
+id -Z
+ls -laZ .
+ls -la /tmp
+ls -laZ /tmp
+id -Z student 
+id -Z  
+ps -efZ 
+getenforce 
+sestatus 
+vi /etc/security/config
+vi /etc/selinux/config 
+dnf install setroubleshoot
+dnf install setroubleshoot-server
+dnf install policycoreutils-devel -y
+vi /etc/ssh/sshd_config
+systemctl restart sshd
+systemctl status sshd
+journalctl 
+sealert -l 8c171dab-e8c3-4672-b9db-cfba036c8e47
+semanage port -a -t ssh_port_t -p tcp 2222
+systemctl restart sshd
+systemctl status sshd
+semanage port -l 
+semanage port -l | grep ssh
+semanage port -m -t xdmcp_port_t -p tcp 199
+semanage port -l | grep xdmcp
+getsebool -a
+getsebool -a|grep sshd
+getsebool -a|grep ssh
+getsebool -a|grep nfs
+getsebool -a|grep smb
+semanage port -a | wc -l
+semanage port -l | wc -l
+semanage fcontext -l | wc -l
+semanage fcontext -l 
+history | grep ")?"
+dnf group install "Basic Web Server"
+dnf install httpd mod_ssl 
+vi /etc/hosts
+ping web.lab.local
+vi /etc/httpd/conf/httpd.conf 
+vi /etc/httpd/conf.d/web.conf
+mkidr /web/docs/web.lab.local -p 
+mkdic /web/docs/web.lab.local -p 
+mkdir /web/docs/web.lab.local -p 
+vi /web/docs/web.lab.local/index.html
+systemctl status httpd
+systemctl start httpd
+journalctl -xeu httpd.service
+journalctl 
+vi /etc/httpd/conf.d/web.conf
+cd /web/docs/web.lab.local/
+ls -la 
+vi /etc/httpd/conf/httpd.conf 
+httpd -t
+vi /etc/httpd/conf/httpd.conf 
+systemctl restart httpd
+journalctl 
+ls -la /var/www/html/
+ls -laZ /var/www/html/
+semanage -a -t httpd_sys_content_t "/web/docs(/.*)?" 
+semanage fcontext -a -t httpd_sys_content_t "/web/docs(/.*)?" 
+restorecon -Rv /web/docs
+systemctl restart httpd
+journalctl 
+systemctl status ipa
+cat /etc/httpd/conf/httpd.conf | grep /web/ -A 6\
+cat /etc/httpd/conf/httpd.conf | grep /web/ -A 6
+cat /etc/httpd/conf.d/web.conf
+cat /web/docs/web.lab.local/index.html
+dnf install mariadb-server
+mkdir /mariadb
+vi /etc/my.cnf.d/mariadb-server.cnf 
+systemctl enable --now mariadb
+journalctl 
+chown -R mysql /mariadb/
+systemctl enable --now mariadb
+journalctl 
+sealert -l 46be0571-77d1-4037-ac24-474072e08fa4
+semanage fcontext -a -t mysqld_db_t "/mariadb(/.*)?"
+restorecon -Rv /mariadb/
+systemctl enable --now mariadb
+journalctl 
+semanage fcontext -a | grep /mariadb 
+semanage fcontext -a | grep -i mariadb
+semanage fcontext -l | grep -i mariadb
+semanage fcontext -l | grep -i /web/docs/
+semanage fcontext -l | grep -i "/web/docs"
+iptables -L -v -n
+systemctl stop firewalld
+systemctl status firewalld.service 
+dnf install iptables-services
+iptables -L -v -n
+systemctl status iptables
+systemctl start iptables
+iptables -L -v -n
+history 
+cd 
+cd linux2_May/
+cd day5/
+history | awk '$1 > 817' | cut -c 8- > day5-history.txt
